@@ -111,7 +111,9 @@ public class SqlSessionFactoryBean
 
   // EnvironmentAware requires spring 3.1
   private String environment = SqlSessionFactoryBean.class.getSimpleName();
-
+  /**
+   * 快速失败机制，如果设置该属性的话，Mybatis会快速检测Mapper是否语法正确，不正确则退出
+   */
   private boolean failFast;
 
   private Interceptor[] plugins;
