@@ -1,12 +1,12 @@
 /**
  * Copyright 2010-2019 the original author or authors.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -81,22 +81,33 @@ import org.springframework.util.StringUtils;
  *   </bean>
  * }
  * </pre>
+ * <p>
+ * <p>
+ * <p>
+ * BeanDefinitionRegistryPostProcessor是一个重要的类，完成BeanDefinition后置处理 .
+ *
+ * 同时MapperScannerConfigurer也实现了ApplicationContextAware，因此启动时候会将容器注册到MapperScannerConfigurer中
  *
  * @author Hunter Presnall
  * @author Eduardo Macarron
- *
  * @see MapperFactoryBean
  * @see ClassPathMapperScanner
  */
 public class MapperScannerConfigurer
-    implements BeanDefinitionRegistryPostProcessor, InitializingBean, ApplicationContextAware, BeanNameAware {
+  implements BeanDefinitionRegistryPostProcessor, InitializingBean, ApplicationContextAware, BeanNameAware {
 
+  /**
+   * Mapper接口类的基础包路径
+   */
   private String basePackage;
 
   private boolean addToConfig = true;
 
   private String lazyInitialization;
 
+  /**
+   * 获取SqlSessionFactory
+   */
   private SqlSessionFactory sqlSessionFactory;
 
   private SqlSessionTemplate sqlSessionTemplate;
@@ -126,8 +137,7 @@ public class MapperScannerConfigurer
    * <p>
    * Mappers will be searched for recursively starting in the specified package(s).
    *
-   * @param basePackage
-   *          base package name
+   * @param basePackage base package name
    */
   public void setBasePackage(String basePackage) {
     this.basePackage = basePackage;
@@ -136,8 +146,7 @@ public class MapperScannerConfigurer
   /**
    * Same as {@code MapperFactoryBean#setAddToConfig(boolean)}.
    *
-   * @param addToConfig
-   *          a flag that whether add mapper to MyBatis or not
+   * @param addToConfig a flag that whether add mapper to MyBatis or not
    * @see MapperFactoryBean#setAddToConfig(boolean)
    */
   public void setAddToConfig(boolean addToConfig) {
@@ -150,8 +159,7 @@ public class MapperScannerConfigurer
    * Default is {@code false}.
    * </p>
    *
-   * @param lazyInitialization
-   *          Set the @{code true} to enable
+   * @param lazyInitialization Set the @{code true} to enable
    * @since 2.0.2
    */
   public void setLazyInitialization(String lazyInitialization) {
@@ -165,8 +173,7 @@ public class MapperScannerConfigurer
    * <p>
    * Note this can be combined with markerInterface.
    *
-   * @param annotationClass
-   *          annotation class
+   * @param annotationClass annotation class
    */
   public void setAnnotationClass(Class<? extends Annotation> annotationClass) {
     this.annotationClass = annotationClass;
@@ -180,8 +187,7 @@ public class MapperScannerConfigurer
    * <p>
    * Note this can be combined with annotationClass.
    *
-   * @param superClass
-   *          parent class
+   * @param superClass parent class
    */
   public void setMarkerInterface(Class<?> superClass) {
     this.markerInterface = superClass;
@@ -191,11 +197,9 @@ public class MapperScannerConfigurer
    * Specifies which {@code SqlSessionTemplate} to use in the case that there is more than one in the spring context.
    * Usually this is only needed when you have more than one datasource.
    * <p>
-   * 
-   * @deprecated Use {@link #setSqlSessionTemplateBeanName(String)} instead
    *
-   * @param sqlSessionTemplate
-   *          a template of SqlSession
+   * @param sqlSessionTemplate a template of SqlSession
+   * @deprecated Use {@link #setSqlSessionTemplateBeanName(String)} instead
    */
   @Deprecated
   public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
@@ -209,10 +213,8 @@ public class MapperScannerConfigurer
    * Note bean names are used, not bean references. This is because the scanner loads early during the start process and
    * it is too early to build mybatis object instances.
    *
+   * @param sqlSessionTemplateName Bean name of the {@code SqlSessionTemplate}
    * @since 1.1.0
-   *
-   * @param sqlSessionTemplateName
-   *          Bean name of the {@code SqlSessionTemplate}
    */
   public void setSqlSessionTemplateBeanName(String sqlSessionTemplateName) {
     this.sqlSessionTemplateBeanName = sqlSessionTemplateName;
@@ -222,11 +224,9 @@ public class MapperScannerConfigurer
    * Specifies which {@code SqlSessionFactory} to use in the case that there is more than one in the spring context.
    * Usually this is only needed when you have more than one datasource.
    * <p>
-   * 
-   * @deprecated Use {@link #setSqlSessionFactoryBeanName(String)} instead.
    *
-   * @param sqlSessionFactory
-   *          a factory of SqlSession
+   * @param sqlSessionFactory a factory of SqlSession
+   * @deprecated Use {@link #setSqlSessionFactoryBeanName(String)} instead.
    */
   @Deprecated
   public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
@@ -240,10 +240,8 @@ public class MapperScannerConfigurer
    * Note bean names are used, not bean references. This is because the scanner loads early during the start process and
    * it is too early to build mybatis object instances.
    *
+   * @param sqlSessionFactoryName Bean name of the {@code SqlSessionFactory}
    * @since 1.1.0
-   *
-   * @param sqlSessionFactoryName
-   *          Bean name of the {@code SqlSessionFactory}
    */
   public void setSqlSessionFactoryBeanName(String sqlSessionFactoryName) {
     this.sqlSessionFactoryBeanName = sqlSessionFactoryName;
@@ -253,11 +251,9 @@ public class MapperScannerConfigurer
    * Specifies a flag that whether execute a property placeholder processing or not.
    * <p>
    * The default is {@literal false}. This means that a property placeholder processing does not execute.
-   * 
-   * @since 1.1.1
    *
-   * @param processPropertyPlaceHolders
-   *          a flag that whether execute a property placeholder processing or not
+   * @param processPropertyPlaceHolders a flag that whether execute a property placeholder processing or not
+   * @since 1.1.1
    */
   public void setProcessPropertyPlaceHolders(boolean processPropertyPlaceHolders) {
     this.processPropertyPlaceHolders = processPropertyPlaceHolders;
@@ -266,8 +262,7 @@ public class MapperScannerConfigurer
   /**
    * The class of the {@link MapperFactoryBean} to return a mybatis proxy as spring bean.
    *
-   * @param mapperFactoryBeanClass
-   *          The class of the MapperFactoryBean
+   * @param mapperFactoryBeanClass The class of the MapperFactoryBean
    * @since 2.0.1
    */
   public void setMapperFactoryBeanClass(Class<? extends MapperFactoryBean> mapperFactoryBeanClass) {
@@ -303,8 +298,7 @@ public class MapperScannerConfigurer
   /**
    * Sets beanNameGenerator to be used while running the scanner.
    *
-   * @param nameGenerator
-   *          the beanNameGenerator to set
+   * @param nameGenerator the beanNameGenerator to set
    * @since 1.2.0
    */
   public void setNameGenerator(BeanNameGenerator nameGenerator) {
@@ -328,8 +322,9 @@ public class MapperScannerConfigurer
   }
 
   /**
+   * 这个是Spring的基础组件，是Spring生命周期中的重要一个环节
    * {@inheritDoc}
-   * 
+   *
    * @since 1.0.2
    */
   @Override
@@ -353,8 +348,9 @@ public class MapperScannerConfigurer
       scanner.setLazyInitialization(Boolean.valueOf(lazyInitialization));
     }
     scanner.registerFilters();
+    //完成Mapper接口的扫描
     scanner.scan(
-        StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
+      StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
   }
 
   /*
@@ -368,7 +364,7 @@ public class MapperScannerConfigurer
 
     if (!prcs.isEmpty() && applicationContext instanceof ConfigurableApplicationContext) {
       BeanDefinition mapperScannerBean = ((ConfigurableApplicationContext) applicationContext).getBeanFactory()
-          .getBeanDefinition(beanName);
+        .getBeanDefinition(beanName);
 
       // PropertyResourceConfigurer does not expose any methods to explicitly perform
       // property placeholder substitution. Instead, create a BeanFactory that just
@@ -389,11 +385,11 @@ public class MapperScannerConfigurer
     }
     this.basePackage = Optional.ofNullable(this.basePackage).map(getEnvironment()::resolvePlaceholders).orElse(null);
     this.sqlSessionFactoryBeanName = Optional.ofNullable(this.sqlSessionFactoryBeanName)
-        .map(getEnvironment()::resolvePlaceholders).orElse(null);
+      .map(getEnvironment()::resolvePlaceholders).orElse(null);
     this.sqlSessionTemplateBeanName = Optional.ofNullable(this.sqlSessionTemplateBeanName)
-        .map(getEnvironment()::resolvePlaceholders).orElse(null);
+      .map(getEnvironment()::resolvePlaceholders).orElse(null);
     this.lazyInitialization = Optional.ofNullable(this.lazyInitialization).map(getEnvironment()::resolvePlaceholders)
-        .orElse(null);
+      .orElse(null);
   }
 
   private Environment getEnvironment() {

@@ -1,12 +1,12 @@
 /**
  * Copyright 2010-2019 the original author or authors.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,9 +46,12 @@ import org.springframework.beans.factory.FactoryBean;
  * </pre>
  * <p>
  * Note that this factory can only inject <em>interfaces</em>, not concrete classes.
+ * <p>
+ * <p>
+ * <p>
+ * Spring整合的关键Bean
  *
  * @author Eduardo Macarron
- *
  * @see SqlSessionTemplate
  */
 public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements FactoryBean<T> {
@@ -88,6 +91,7 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
   }
 
   /**
+   * 返回Mapper的代理类
    * {@inheritDoc}
    */
   @Override
@@ -116,8 +120,7 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
   /**
    * Sets the mapper interface of the MyBatis mapper
    *
-   * @param mapperInterface
-   *          class of the interface
+   * @param mapperInterface class of the interface
    */
   public void setMapperInterface(Class<T> mapperInterface) {
     this.mapperInterface = mapperInterface;
@@ -140,8 +143,7 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
    * <p>
    * By default addToConfig is true.
    *
-   * @param addToConfig
-   *          a flag that whether add mapper to MyBatis or not
+   * @param addToConfig a flag that whether add mapper to MyBatis or not
    */
   public void setAddToConfig(boolean addToConfig) {
     this.addToConfig = addToConfig;
